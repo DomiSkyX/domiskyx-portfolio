@@ -1,30 +1,43 @@
-import { Geist, Geist_Mono, Figtree } from "next/font/google"
+import type { Metadata } from "next"
+//@ts-ignore 
+import './globals.css'
+import { ClerkProvider } from "@clerk/nextjs"
+import ConvexClientProvider from "@/components/ConvexClientProvider"
+import Header from "@/components/Header"
+import Footer from "@/components/Footer"
+import ThemeProvider from "@/components/ThemeProvider"
 
-import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
-
-const figtree = Figtree({subsets:['latin'],variable:'--font-sans'})
-
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
+export const metadata: Metadata = {
+  title: "My Portfolio",
+  description: "Modern portfolio",
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", figtree.variable)}
-    >
-      <body>
-        <ThemeProvider>{children}</ThemeProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className="bg-background text-foreground antialiased">
+
+          <ConvexClientProvider>
+            <ThemeProvider>
+
+              <Header />
+
+              <main className="pt-20">
+                {children}
+              </main>
+
+              <Footer />
+
+            </ThemeProvider>
+          </ConvexClientProvider>
+
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
