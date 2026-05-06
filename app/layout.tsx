@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
-//@ts-ignore 
-import './globals.css'
+import "./globals.css"
 import { ClerkProvider } from "@clerk/nextjs"
 import ConvexClientProvider from "@/components/ConvexClientProvider"
 import Header from "@/components/Header"
@@ -21,21 +20,15 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className="bg-background text-foreground antialiased">
-
           <ConvexClientProvider>
             <ThemeProvider>
-
               <Header />
 
-              <main className="pt-20">
-                {children}
-              </main>
+              <main className="pt-20">{children}</main>
 
               <Footer />
-
             </ThemeProvider>
           </ConvexClientProvider>
-
         </body>
       </html>
     </ClerkProvider>
