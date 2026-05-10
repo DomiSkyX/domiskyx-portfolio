@@ -3,7 +3,7 @@
 import { useState } from "react"
 
 export default function ImageGallery({
-  images,
+  images = [],
 }: {
   images?: string[]
 }) {
@@ -29,6 +29,7 @@ export default function ImageGallery({
         <img
           src={mainImage}
           className="w-full h-full object-cover transition duration-500"
+          alt="project image"
         />
       </div>
 
@@ -47,6 +48,7 @@ export default function ImageGallery({
             <img
               src={img}
               className="w-full h-full object-cover"
+              alt={`thumbnail ${i}`}
             />
           </button>
         ))}
