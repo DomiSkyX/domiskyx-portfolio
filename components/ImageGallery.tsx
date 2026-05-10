@@ -7,7 +7,7 @@ export default function ImageGallery({
 }: {
   images?: string[]
 }) {
-  const safeImages = images && images.length > 0 ? images : []
+  const safeImages = Array.isArray(images) ? images.filter(Boolean) : []
 
   const [active, setActive] = useState(0)
 
@@ -19,7 +19,7 @@ export default function ImageGallery({
     )
   }
 
-  const mainImage = safeImages[active]
+  const mainImage = safeImages[active] ?? safeImages[0]
 
   return (
     <div className="space-y-4 w-full max-w-7xl mx-auto">
