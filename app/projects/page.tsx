@@ -1,57 +1,61 @@
 'use client'
 
-import { useState } from "react"
+import { useQuery } from "convex/react"
+import { api } from "@/convex/_generated/api"
+import Container from "@/components/Container"
+import ImageGallery from "@/components/ImageGallery"
 
-export default function ImageGallery({
-  images,
-}: {
-  images?: string[]
-}) {
-  const safeImages = images && images.length > 0 ? images : []
+export default function ProjectsPage() {
+  const projects = useQuery(api.projects.getAll)
 
-  const [active, setActive] = useState(0)
-
-  if (safeImages.length === 0) {
+  if (!projects) {
     return (
-      <div className="aspect-video rounded-2xl border border-border bg-muted flex items-center justify-center text-sm text-muted-foreground">
-        No images available
-      </div>
+      <main className="py-24">
+        <Container>
+          <p className="text-sm text-neutral-500">Loading projects...</p>
+        </Container>
+      </main>
     )
   }
 
-  const mainImage = safeImages[active]
-
   return (
-    <div className="space-y-4 w-full max-w-7xl mx-auto">
+    <main className="py-24">
+      <Container>
 
-      {/* MAIN IMAGE */}
-      <div className="rounded-2xl overflow-hidden border border-border bg-muted aspect-video">
-        <img
-          src={mainImage}
-          className="w-full h-full object-cover transition duration-500"
-        />
-      </div>
+        <h1 className="text-3xl font-semibold mb-10">
+          Projects
+        </h1>
 
-      {/* THUMBNAILS */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-        {safeImages.map((img, i) => (
-          <button
-            key={i}
-            onClick={() => setActive(i)}
-            className={`rounded-2xl overflow-hidden border transition aspect-video ${
-              i === active
-                ? "border-foreground"
-                : "border-border opacity-70 hover:opacity-100"
-            }`}
-          >
-            <img
-              src={img}
-              className="w-full h-full object-cover"
-            />
-          </button>
-        ))}
-      </div>
+        <div className="space-y-20">
 
-    </div>
+          {projects.map((project: any) => (
+            <div key={project._id} className="space-y-6">
+
+              {/* TITLE + DESCRIPTION */}
+              <div>
+                <h2 className="text-xl font-medium">
+                  {project.title}
+                </h2>
+
+                <p className="text-sm text-neutral-500 mt-1">
+                  {project.description}
+                </p>
+              </div>
+
+              {/* IMAGE GALLERY */}
+              <ImageGallery images={project.images} />
+
+              {/* CONTENT */}
+              <div className="prose prose-sm dark:prose-invert max-w-none">
+                {project.content}
+              </div>
+
+            </div>
+          ))}
+
+        </div>
+
+      </Container>
+    </main>
   )
 }
