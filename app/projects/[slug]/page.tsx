@@ -1,6 +1,7 @@
-import { api } from "@/convex/_generated/api"
-import { fetchQuery } from "convex/nextjs"
 import { notFound } from "next/navigation"
+import { fetchQuery } from "convex/nextjs"
+import { api } from "@/convex/_generated/api"
+import Container from "@/components/Container"
 import ImageGallery from "@/components/ImageGallery"
 
 export default async function ProjectPage({
@@ -14,30 +15,45 @@ export default async function ProjectPage({
     slug,
   })
 
-  if (!project) return notFound()
+  if (!project) {
+    notFound()
+  }
 
   return (
-    <main className="min-h-[70vh] max-w-5xl mx-auto px-6 py-16 space-y-10">
+    <main className="min-h-screen py-16 sm:py-24">
+      <Container>
 
-      {/* TITLE */}
-      <div>
-        <h1 className="text-4xl font-semibold">
-          {project.title}
-        </h1>
+        <div className="grid lg:grid-cols-2 gap-10 items-start">
 
-        <p className="text-muted-foreground mt-2">
-          {project.description}
-        </p>
-      </div>
+          <div className="space-y-6">
 
-      {/* GALLERY */}
-      <ImageGallery images={project.images} />
+            <div className="space-y-4">
 
-      {/* CONTENT */}
-      <div className="prose prose-neutral max-w-none">
-        {project.content}
-      </div>
+              <p className="text-sm text-muted-foreground">
+                Case Study
+              </p>
 
+              <h1 className="text-3xl sm:text-5xl font-bold tracking-tight">
+                {project.title}
+              </h1>
+
+              <p className="text-base text-muted-foreground leading-relaxed">
+                {project.description}
+              </p>
+
+            </div>
+
+            <div className="space-y-6 text-sm sm:text-base leading-relaxed">
+              {project.content}
+            </div>
+
+          </div>
+
+          <ImageGallery images={project.images} />
+
+        </div>
+
+      </Container>
     </main>
   )
 }

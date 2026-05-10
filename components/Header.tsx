@@ -8,49 +8,57 @@ import ThemeToggle from "@/components/ThemeToggle"
 export default function Header() {
   const { user, isSignedIn } = useUser()
 
-  const email = user?.emailAddresses?.[0]?.emailAddress ?? ""
+  const email = user?.emailAddresses?.[0]?.emailAddress
   const admin = isAdmin(email)
 
   return (
-    <header className="w-full border-b bg-background/80 backdrop-blur-md">
-      <div className="max-w-5xl mx-auto px-6 py-5 flex justify-between items-center">
+    <header className="w-full border-b backdrop-blur bg-background/80 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
-        {/* NAV */}
-        <nav className="flex gap-6 text-sm">
-          <Link href="/">Home</Link>
-          <Link href="/projects">Projects</Link>
-          <Link href="/about">About</Link>
-          <Link href="/contact">Contact</Link>
+        <nav className="flex flex-wrap items-center gap-4 text-sm font-medium">
+          <Link href="/" className="hover:opacity-60 transition">
+            Home
+          </Link>
+
+          <Link href="/projects" className="hover:opacity-60 transition">
+            Projects
+          </Link>
+
+          <Link href="/about" className="hover:opacity-60 transition">
+            About
+          </Link>
+
+          <Link href="/contact" className="hover:opacity-60 transition">
+            Contact
+          </Link>
 
           {admin && (
             <Link
               href="/admin"
-              className="text-red-500 hover:text-red-600 transition"
+              className="text-red-500 hover:opacity-70 transition"
             >
               Admin
             </Link>
           )}
         </nav>
 
-        {/* RIGHT SIDE */}
-        <div className="flex items-center gap-4 text-sm">
+        <div className="flex items-center gap-3 text-sm">
+          <span className="hidden sm:block">
+            Dark Mode
+          </span>
 
-          <span className="text-neutral-400">Theme</span>
           <ThemeToggle />
-
-          <div className="w-px h-5 bg-neutral-200 dark:bg-neutral-800" />
 
           {isSignedIn ? (
             <UserButton />
           ) : (
             <Link
               href="/sign-in"
-              className="px-3 py-1 rounded-full border "
+              className="hover:opacity-60 transition"
             >
               Sign in
             </Link>
           )}
-
         </div>
 
       </div>

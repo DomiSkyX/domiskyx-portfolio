@@ -1,64 +1,37 @@
-'use client'
-
 import Container from "@/components/Container"
-import Reveal from "@/components/Reveal"
 
-export default function About() {
+export default function AboutPage() {
   return (
-    <main className="min-h-[70vh] py-24">
+    <main className="min-h-screen py-16 sm:py-24">
       <Container>
-        <div className="max-w-2xl">
-          <Reveal>
-            <p className="text-sm text-neutral-400 mb-4">
-              About
+
+        <div className="max-w-4xl mx-auto space-y-8">
+
+          <div className="space-y-4">
+
+            <p className="text-sm text-muted-foreground">
+              About me
             </p>
 
-            <h1 className="text-4xl font-semibold tracking-tight leading-tight mb-6">
-              I design & build digital products that feel simple, fast, and intuitive.
+            <h1 className="text-4xl sm:text-6xl font-bold tracking-tight">
+              Building modern digital experiences.
             </h1>
 
-            <p className="text-neutral-500 mb-6">
-              I focus on creating clean user interfaces and smooth user experiences.
-              My work blends design and development — making sure products not only look good,
-              but also perform well and scale.
-            </p>
+          </div>
 
-            <p className="text-neutral-500 mb-10">
-              I enjoy working on modern web apps, design systems, and products where
-              attention to detail makes a difference.
-            </p>
-          </Reveal>
+          <p className="text-sm sm:text-base leading-relaxed text-muted-foreground">
+            I design and develop modern websites and digital products
+            focused on clean aesthetics, smooth interactions and strong
+            user experiences.
+          </p>
 
-          {/* Divider */}
-          <div className="border-t border-border my-12" />
+          <p className="text-sm sm:text-base leading-relaxed text-muted-foreground">
+            My focus is creating premium feeling interfaces that work
+            beautifully across desktop, tablet and mobile devices.
+          </p>
 
-          {/* Skills / Focus */}
-          <Reveal>
-            <h2 className="text-sm text-neutral-400 mb-4">
-              Focus
-            </h2>
-
-            <div className="grid grid-cols-2 gap-y-4 text-neutral-600 text-sm">
-              <p>UI / UX Design</p>
-              <p>Frontend Development</p>
-              <p>Design Systems</p>
-              <p>Performance Optimization</p>
-              <p>React / Next.js</p>
-              <p>Animations & Interactions</p>
-            </div>
-          </Reveal>
-
-          {/* Divider */}
-          <div className="border-t border-border my-12" />
-
-          {/* Closing */}
-          <Reveal>
-            <p className="text-neutral-500">
-              Currently building projects and continuously improving my craft.
-              Always interested in working on meaningful products.
-            </p>
-          </Reveal>
         </div>
+
       </Container>
     </main>
   )

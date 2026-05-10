@@ -19,25 +19,17 @@ export default function Admin() {
 
   const [tab, setTab] = useState<"projects" | "messages">("projects")
   const [filter, setFilter] = useState<"New" | "Read" | "Saved">("New")
-
   const [dragActive, setDragActive] = useState(false)
 
-  const [form, setForm] = useState<{
-    title: string
-    description: string
-    content: string
-    slug: string
-    images: string[]
-  }>({
+  const [form, setForm] = useState({
     title: "",
     description: "",
     content: "",
     slug: "",
-    images: [],
+    images: [] as string[],
   })
 
-  if (!isLoaded) return null
-  if (!admin) return null
+  if (!isLoaded || !admin) return null
 
   const generateSlug = (title: string) =>
     title.toLowerCase().replace(/\s+/g, "-")
@@ -50,9 +42,9 @@ export default function Admin() {
       if (!file.type.startsWith("image/")) return
 
       const reader = new FileReader()
-
       reader.onload = () => {
         const result = reader.result
+
         if (typeof result === "string") {
           setForm((prev) => ({
             ...prev,
@@ -60,32 +52,24 @@ export default function Admin() {
           }))
         }
       }
-
       reader.readAsDataURL(file)
     })
   }
 
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault()
-    setDragActive(true)
-  }
-
-  const handleDragLeave = () => setDragActive(false)
-
   return (
-    <main className="min-h-screen py-24 bg-background text-foreground">
+    <main className="min-h-screen py-16 sm:py-24">
       <Container>
 
-        {/* HEADER TABS */}
-        <div className="flex gap-2 mb-10 text-sm">
+        {/* TABS */}
+        <div className="flex flex-wrap gap-2 mb-10 text-sm">
           {["projects", "messages"].map((t) => (
             <button
               key={t}
               onClick={() => setTab(t as any)}
-              className={`px-4 py-2 rounded-full border transition tracking-tight ${
+              className={`px-4 py-2 rounded-full border transition ${
                 tab === t
-                  ? "bg-zinc-900 text-white border-transparent dark:bg-zinc-100 dark:text-zinc-900"
-                  : "bg-transparent text-zinc-700 dark:text-zinc-300 hover:opacity-60"
+                  ? "bg-foreground text-background"
+                  : "hover:opacity-60"
               }`}
             >
               {t}
@@ -100,7 +84,7 @@ export default function Admin() {
             {["title", "description", "content", "slug"].map((key) => (
               <input
                 key={key}
-                className="w-full border border-border p-3 rounded-xl bg-background focus:outline-none focus:ring-2 focus:ring-black/20 transition"
+                className="w-full rounded-xl border p-3 bg-background"
                 placeholder={key}
                 value={(form as any)[key]}
                 onChange={(e) =>
@@ -118,39 +102,32 @@ export default function Admin() {
 
             <div
               onDrop={handleDrop}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              className={`border-2 border-dashed p-6 rounded-xl transition ${
-                dragActive
-                  ? "bg-black/5 border-black"
-                  : "border-border"
+              onDragOver={(e) => e.preventDefault()}
+              onDragLeave={() => setDragActive(false)}
+              className={`border-2 border-dashed rounded-xl p-6 text-center transition ${
+                dragActive ? "border-foreground bg-muted" : ""
               }`}
             >
-              <p className="text-sm text-neutral-500">
-                Drag images here or click to upload
-              </p>
+              Drag images here
             </div>
 
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {form.images.map((img, i) => (
-                <div
+                <img
                   key={i}
-                  className="relative group rounded-lg overflow-hidden border"
-                >
-                  <img
-                    src={img}
-                    className="h-20 w-full object-cover group-hover:scale-105 transition"
-                  />
-                </div>
+                  src={img}
+                  className="aspect-video object-cover rounded-lg"
+                />
               ))}
             </div>
 
             <button
               onClick={() => createProject(form)}
-              className="w-full bg-black text-white py-3 rounded-xl hover:opacity-90 transition"
+              className="w-full bg-foreground text-background py-3 rounded-xl"
             >
               Create Project
             </button>
+
           </div>
         )}
 
@@ -158,15 +135,15 @@ export default function Admin() {
         {tab === "messages" && (
           <div className="space-y-6 max-w-2xl">
 
-            <div className="flex gap-2 text-sm">
+            <div className="flex flex-wrap gap-2 text-sm">
               {(["New", "Read", "Saved"] as const).map((t) => (
                 <button
                   key={t}
                   onClick={() => setFilter(t)}
-                  className={`px-3 py-1 rounded-full border transition tracking-tight ${
+                  className={`px-3 py-1 rounded-full border ${
                     filter === t
-                      ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 border-transparent"
-                      : "bg-transparent text-zinc-700 dark:text-zinc-300 hover:opacity-60"
+                      ? "bg-foreground text-background"
+                      : "hover:opacity-60"
                   }`}
                 >
                   {t}
@@ -174,50 +151,35 @@ export default function Admin() {
               ))}
             </div>
 
-            <div className="space-y-3">
-              {messages
-                ?.filter((m: any) => m.status === filter)
-                .map((m: any) => (
-                  <div
-                    key={m._id}
-                    className="border border-border rounded-xl p-4 hover:shadow-sm transition"
-                  >
-                    <p className="text-xs text-neutral-400">
-                      {m.email}
-                    </p>
+            {messages
+              ?.filter((m: any) => m.status === filter)
+              .map((m: any) => (
+                <div
+                  key={m._id}
+                  className="border rounded-xl p-4 space-y-2"
+                >
+                  <p className="text-xs opacity-60">{m.email}</p>
+                  <p className="text-sm">{m.message}</p>
 
-                    <p className="mt-1 text-sm">
-                      {m.message}
-                    </p>
+                  <div className="flex gap-4 text-xs">
+                    <button
+                      onClick={() =>
+                        updateStatus({ id: m._id, status: "Read" })
+                      }
+                    >
+                      Read
+                    </button>
 
-                    <div className="flex gap-3 text-xs mt-3">
-                      <button
-                        onClick={() =>
-                          updateStatus({
-                            id: m._id,
-                            status: "Read",
-                          })
-                        }
-                        className="hover:underline"
-                      >
-                        Read
-                      </button>
-
-                      <button
-                        onClick={() =>
-                          updateStatus({
-                            id: m._id,
-                            status: "Saved",
-                          })
-                        }
-                        className="hover:underline"
-                      >
-                        Save
-                      </button>
-                    </div>
+                    <button
+                      onClick={() =>
+                        updateStatus({ id: m._id, status: "Saved" })
+                      }
+                    >
+                      Save
+                    </button>
                   </div>
-                ))}
-            </div>
+                </div>
+              ))}
           </div>
         )}
 

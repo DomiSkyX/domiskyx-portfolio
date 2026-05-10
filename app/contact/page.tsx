@@ -5,70 +5,67 @@ import { useMutation } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import Container from "@/components/Container"
 
-export default function Contact() {
-  const createMessage = useMutation(api.messages.create)
+export default function ContactPage() {
+  const sendMessage = useMutation(api.messages.create)
 
-  const [form, setForm] = useState({
-    email: "",
-    message: "",
-  })
+  const [email, setEmail] = useState("")
+  const [message, setMessage] = useState("")
 
-  const [sent, setSent] = useState(false)
+  const submit = async () => {
+    if (!email || !message) return
 
-  const sendMessage = async () => {
-    await createMessage({
-      email: form.email,
-      message: form.message,
+    await sendMessage({
+      email,
+      message,
     })
 
-    setForm({ email: "", message: "" })
-    setSent(true)
-
-    setTimeout(() => {
-      setSent(false)
-    }, 3000)
+    setEmail("")
+    setMessage("")
   }
 
   return (
-    <main className="min-h-screen py-24">
+    <main className="min-h-screen py-16 sm:py-24">
       <Container>
 
-        <h1 className="text-3xl font-semibold mb-8">
-          Contact
-        </h1>
+        <div className="max-w-2xl mx-auto space-y-8">
 
-        <div className="space-y-4 max-w-xl">
+          <div className="space-y-3">
 
-          <input
-            placeholder="Email"
-            className="w-full border p-3 rounded"
-            value={form.email}
-            onChange={(e) =>
-              setForm({ ...form, email: e.target.value })
-            }
-          />
+            <p className="text-sm text-muted-foreground">
+              Contact
+            </p>
 
-          <textarea
-            placeholder="Message"
-            className="w-full border p-3 rounded min-h-[140px]"
-            value={form.message}
-            onChange={(e) =>
-              setForm({ ...form, message: e.target.value })
-            }
-          />
+            <h1 className="text-4xl sm:text-6xl font-bold tracking-tight">
+              Let’s work together.
+            </h1>
 
-          <button
-            onClick={sendMessage}
-            className="w-full bg-black text-white py-3 rounded"
-          >
-            Send Message
-          </button>
+          </div>
 
-          {sent && (
-            <div className="text-sm text-green-600">
-              Message sent successfully ✔
-            </div>
-          )}
+          <div className="space-y-5">
+
+            <input
+              placeholder="Your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-foreground/20"
+            />
+
+            <textarea
+              placeholder="Your message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              rows={6}
+              className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-foreground/20"
+            />
+
+            <button
+              onClick={submit}
+              className="w-full rounded-2xl bg-foreground text-background py-3 text-sm font-medium hover:opacity-90 transition"
+            >
+              Send message
+            </button>
+
+          </div>
 
         </div>
 
