@@ -40,58 +40,48 @@ export default function ProjectsPage() {
           </p>
         </div>
 
-        <div className="space-y-24">
-
-          {projects.length === 0 && (
-            <div className="border border-border rounded-3xl p-10 text-center">
-              <p className="text-neutral-500">
-                No projects yet.
-              </p>
-            </div>
-          )}
-
+        <div className="grid gap-10">
           {projects.map((project: any) => (
-            <article
+            <Link
               key={project._id}
-              className="space-y-8"
+              href={`/projects/${project.slug}`}
+              className="group block"
             >
+              <article className="overflow-hidden rounded-3xl border border-border bg-card transition hover:border-neutral-400/40 hover:shadow-lg">
 
-              <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+                {/* Cover Image */}
+                {project.images?.[0] && (
+                  <div className="relative aspect-[16/9] overflow-hidden">
+                    <img
+                      src={project.images[0]}
+                      alt={project.title}
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                )}
 
-                <div>
+                {/* Content */}
+                <div className="p-6 sm:p-8">
                   <p className="text-xs uppercase tracking-[0.2em] text-neutral-500 mb-3">
                     Project
                   </p>
 
-                  <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
+                  <h2 className="text-2xl font-semibold tracking-tight">
                     {project.title}
                   </h2>
 
-                  <p className="mt-3 text-neutral-500 max-w-2xl text-sm sm:text-base leading-relaxed">
+                  <p className="mt-3 text-sm text-neutral-500 leading-relaxed max-w-2xl line-clamp-3">
                     {project.description}
                   </p>
+
+                  <div className="mt-6 text-sm font-medium">
+                    View Project →
+                  </div>
                 </div>
 
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="w-fit rounded-full border border-border px-5 py-2.5 text-sm hover:bg-muted transition"
-                >
-                  View Project
-                </Link>
-
-              </div>
-
-              <ImageGallery images={project.images} />
-
-              <div className="max-w-3xl">
-                <p className="text-sm sm:text-base leading-8 text-neutral-700 dark:text-neutral-300 whitespace-pre-line">
-                  {project.content}
-                </p>
-              </div>
-
-            </article>
+              </article>
+            </Link>
           ))}
-
         </div>
 
       </Container>
