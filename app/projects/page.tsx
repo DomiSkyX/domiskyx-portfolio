@@ -40,41 +40,41 @@ export default function ProjectsPage() {
           </p>
         </div>
 
-        <div className="grid gap-10">
+        <div className="grid gap-6">
+          {projects.length === 0 && (
+            <div className="border border-border rounded-2xl p-6 text-center">
+              <p className="text-neutral-500">No projects yet.</p>
+            </div>
+          )}
+
           {projects.map((project: any) => (
             <Link
               key={project._id}
               href={`/projects/${project.slug}`}
               className="group block"
             >
-              <article className="overflow-hidden rounded-3xl border border-border bg-card transition hover:border-neutral-400/40 hover:shadow-lg">
+              <article className="overflow-hidden rounded-2xl border border-border hover:bg-muted/30 transition">
 
-                {/* Cover Image */}
                 {project.images?.[0] && (
-                  <div className="relative aspect-[16/9] overflow-hidden">
+                  <div className="h-32 overflow-hidden">
                     <img
                       src={project.images[0]}
                       alt={project.title}
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   </div>
                 )}
 
-                {/* Content */}
-                <div className="p-6 sm:p-8">
-                  <p className="text-xs uppercase tracking-[0.2em] text-neutral-500 mb-3">
-                    Project
-                  </p>
-
-                  <h2 className="text-2xl font-semibold tracking-tight">
+                <div className="p-4">
+                  <h2 className="text-lg font-semibold tracking-tight">
                     {project.title}
                   </h2>
 
-                  <p className="mt-3 text-sm text-neutral-500 leading-relaxed max-w-2xl line-clamp-3">
+                  <p className="mt-2 text-sm text-neutral-500 line-clamp-2">
                     {project.description}
                   </p>
 
-                  <div className="mt-6 text-sm font-medium">
+                  <div className="mt-3 text-sm font-medium">
                     View Project →
                   </div>
                 </div>
