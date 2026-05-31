@@ -40,23 +40,17 @@ export default function ProjectsPage() {
           </p>
         </div>
 
-        <div className="grid gap-6">
-          {projects.length === 0 && (
-            <div className="border border-border rounded-2xl p-6 text-center">
-              <p className="text-neutral-500">No projects yet.</p>
-            </div>
-          )}
-
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {projects.map((project: any) => (
             <Link
               key={project._id}
               href={`/projects/${project.slug}`}
-              className="group block"
+              className="group"
             >
               <article className="overflow-hidden rounded-2xl border border-border hover:bg-muted/30 transition">
 
                 {project.images?.[0] && (
-                  <div className="h-32 overflow-hidden">
+                  <div className="aspect-[4/3] overflow-hidden bg-muted">
                     <img
                       src={project.images[0]}
                       alt={project.title}
@@ -66,17 +60,13 @@ export default function ProjectsPage() {
                 )}
 
                 <div className="p-4">
-                  <h2 className="text-lg font-semibold tracking-tight">
+                  <h2 className="text-lg font-semibold">
                     {project.title}
                   </h2>
 
                   <p className="mt-2 text-sm text-neutral-500 line-clamp-2">
                     {project.description}
                   </p>
-
-                  <div className="mt-3 text-sm font-medium">
-                    View Project →
-                  </div>
                 </div>
 
               </article>
