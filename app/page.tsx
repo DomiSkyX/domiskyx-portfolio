@@ -23,10 +23,10 @@ export default function Home() {
           <p className="text-neutral-500 max-w-xl mb-10">
             Clean interfaces, fast performance, and thoughtful UX.
           </p>
-
+          
           <a
             href="/projects"
-            className="inline-block px-6 py-3 rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition"
+            className="inline-block px-6 py-3 rounded-xl bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] hover:opacity-90 transition"
           >
             View Work
           </a>
