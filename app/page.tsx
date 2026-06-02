@@ -26,7 +26,7 @@ export default function Home() {
 
           <a
             href="/projects"
-            className="inline-block px-6 py-3 rounded-xl bg-background text-foreground hover:opacity-90 transition"
+            className="inline-block px-6 py-3 rounded-xl bg-foreground text-background hover:opacity-90 transition"
           >
             View Work
           </a>
