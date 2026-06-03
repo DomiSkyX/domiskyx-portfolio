@@ -1,6 +1,6 @@
+import { Analytics } from "@vercel/analytics/next"
 import type { Metadata } from "next"
 import './globals.css'
-import { Analytics } from "@vercel/analytics/next"
 import { ClerkProvider } from "@clerk/nextjs"
 import ConvexClientProvider from "@/components/ConvexClientProvider"
 import Header from "@/components/Header"
